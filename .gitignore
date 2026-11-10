@@ -1,0 +1,10 @@
+build/
+dist/
+__pycache__/
+*.pyc
+*.log
+.env
+.venv/
+installer/out/
+installer/work/
+installer/payload.zip

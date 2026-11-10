@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PDF 데스크 매뉴얼</title>
+<meta name="description" content="PDF를 보고 고치는 무료 프로그램. 설치 파일 내려받기와 사용 방법을 한 화면에서 봅니다.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PDF 데스크 설치·사용 매뉴얼">
+<meta property="og:description" content="눌러서 내려받아 실행하면 자동으로 설치됩니다. 사용 방법도 여기서 봅니다.">
+<meta property="og:image" content="https://drc2104.github.io/pdf-desk/og.jpg">
+<meta property="og:url" content="https://drc2104.github.io/pdf-desk/">
+<style>
+:root{--bg:#f3f4f2;--panel:#fbfbfa;--side:#e9ebe7;--ink:#1c2220;--muted:#4c5652;--line:#cdd3cf;--accent:#9a5516;--accent-d:#7f4611;--cat:#1d6b6b}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "Malgun Gothic","Apple SD Gothic Neo",sans-serif;word-break:keep-all;overflow-wrap:break-word}
+button,a.btn{font:inherit;cursor:pointer}
+.app{height:100%;display:grid;grid-template-columns:220px minmax(0,1fr);overflow:hidden}
+.side{background:var(--side);border-right:1px solid var(--line);display:flex;flex-direction:column;overflow:auto}
+.brand{font-size:20px;font-weight:700;padding:14px 16px 10px}
+.brand small{display:block;font-size:13px;font-weight:400;color:var(--muted)}
+.cats{display:flex;flex-direction:column}
+.cats button{display:flex;justify-content:space-between;align-items:center;border:0;border-left:6px solid var(--c);background:transparent;padding:8px 12px 8px 14px;font-size:16px;text-align:left;color:var(--ink)}
+.cats button:hover{background:#dfe2dd}
+.cats button[aria-current=true]{background:var(--c);color:#fff;font-weight:700}
+.cats .n{font-size:16px;font-variant-numeric:tabular-nums}
+.foot{margin-top:auto;padding:12px 16px;font-size:13px;color:var(--muted)}
+.main{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr);min-width:0;min-height:0}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:8px 12px;background:var(--panel);border-bottom:1px solid var(--line)}
+.tabs button{border:0;padding:6px 13px;font-size:16px;font-weight:700;background:color-mix(in srgb,var(--c) 13%,#fff);color:color-mix(in srgb,var(--c) 78%,#000)}
+.tabs button[aria-selected=true]{background:var(--c);color:#fff}
+.tabs .ok{font-size:13px;margin-left:6px;font-weight:700}
+.now{display:flex;align-items:center;gap:14px;padding:9px 14px;background:var(--panel);border-bottom:1px solid var(--line)}
+.now h1{font-size:18px;margin:0;flex:none}
+.now p{margin:0;flex:1;min-width:0}
+.now label{flex:none;display:flex;gap:7px;align-items:center;font-size:15px;font-weight:700;cursor:pointer}
+.now input{width:22px;height:22px;accent-color:var(--accent)}
+.next{flex:none;background:#fff;border:1px solid #8f9893;padding:5px 12px}
+.next:hover{background:#eef0ec}
+.body{display:grid;grid-template-columns:minmax(0,1fr) 370px;min-height:0;overflow:hidden}
+.stage{min-width:0;min-height:0;padding:10px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:#dfe2dd}
+.stage a.shot{display:flex;width:100%;flex:1;min-height:0;align-items:center;justify-content:center}
+.stage img{max-width:100%;max-height:100%;border:1px solid #aab2ad;display:block}
+.cap{flex:none;font-size:14px;color:var(--ink)}
+.hero{max-width:620px;width:100%;background:var(--panel);border:1px solid var(--line);padding:22px}
+.hero h2{font-size:22px;margin:0 0 6px}
+.hero p{margin:0 0 14px}
+.hero .dl{display:block;text-align:center;background:var(--accent);border:1px solid var(--accent-d);color:#fff;text-decoration:none;font-size:20px;font-weight:700;padding:14px}
+.hero .dl:hover{background:#874a13}
+.hero .sub{font-size:14px;color:var(--muted);margin:10px 0 0}
+.fig{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.ss{background:#0a64ad;color:#fff;padding:12px 14px;min-height:150px;display:flex;flex-direction:column}
+.ss h3{font-size:16px;margin:0 0 4px}
+.ss p{font-size:13px;margin:0}
+.ss .row{margin-top:auto;display:flex;justify-content:flex-end;gap:6px;padding-top:8px;align-items:center}
+.ss .link{outline:3px solid #ffd21f;outline-offset:2px;font-size:14px;align-self:flex-start;margin-top:8px;text-decoration:underline}
+.ss .b{border:1px solid #fff;padding:2px 12px;font-size:14px}
+.ss .b.hit{outline:3px solid #ffd21f;outline-offset:2px;font-weight:700}
+.figcap{font-size:13px;color:var(--muted);margin:-6px 0 10px}
+.panel{background:var(--panel);border-left:1px solid var(--line);padding:14px 16px;overflow:auto;min-height:0}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s}
+ol.steps li{counter-increment:s;position:relative;padding:0 0 11px 32px}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:23px;height:23px;line-height:23px;text-align:center;background:var(--c);color:#fff;font-size:14px;font-weight:700}
+b.k{background:#eceee9;border:1px solid #c3c9c4;padding:0 5px;font-weight:700;white-space:nowrap}
+.tip{border-top:1px solid var(--line);padding-top:9px;margin:2px 0 0;font-size:14px;color:var(--muted)}
+.warn{border:2px solid #a23b1e;background:#fdf1ec;padding:9px 11px;margin:2px 0 0;font-size:15px;color:#7d2a13;font-weight:700}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#eceee9;width:42%;font-weight:700}
+.mobile{display:none;background:#fff3e6;border-bottom:1px solid #e5c6a6;padding:8px 14px;font-size:14px}
+@media (max-width:900px){
+ html,body{height:auto}
+ .app{display:block;height:auto;overflow:visible}
+ .side{border-right:0;border-bottom:1px solid var(--line)}
+ .cats{flex-direction:row;overflow-x:auto}
+ .cats button{flex:none;border-left:0;border-bottom:4px solid var(--c);gap:6px;white-space:nowrap}
+ .foot{display:none}
+ .tabs{flex-wrap:nowrap;overflow-x:auto}
+ .tabs button{flex:none}
+ .now{flex-wrap:wrap}
+ .now p{flex-basis:100%;order:3}
+ .next{margin-left:auto}
+ .body{display:block;overflow:visible}
+ .stage{padding:8px}
+ .stage a.shot{flex:none}
+ .panel{border-left:0}
+ .mobile{display:block}
+ .hero .dl{display:none}
+ .fig{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="side">
+    <div class="brand">PDF 데스크<small>설치·사용 매뉴얼</small></div>
+    <div class="cats" id="cats"></div>
+    <div class="foot">판 1.0.0 · 2026-11-10 작성<br>디알컴퍼니 · 무료</div>
+  </nav>
+  <main class="main">
+    <div>
+      <div class="mobile">설치는 PC에서 합니다. 휴대폰에서는 사용 방법만 볼 수 있습니다.</div>
+      <div class="tabs" id="tabs" role="tablist"></div>
+    </div>
+    <div class="now">
+      <h1 id="title"></h1><p id="todo"></p>
+      <label><input type="checkbox" id="done">해 봤어요</label>
+      <button class="next" id="next"></button>
+    </div>
+    <div class="body">
+      <div class="stage" id="stage"></div>
+      <aside class="panel" id="panel"></aside>
+    </div>
+  </main>
+</div>
+<script>
+const DL="https://github.com/drc2104/pdf-desk/releases/latest/download/PdfDeskSetup.exe";
+const download=`<div class="hero"><h2>PDF 데스크 설치 파일</h2><p>PC에서 아래 단추를 눌러 내려받고, 받은 파일을 실행하면 자동으로 설치됩니다.</p><a class="dl" href="${DL}">설치 파일 내려받기</a><p class="sub">83MB · 윈도우 10 이상 · 무료 · 관리자 권한 필요 없음</p></div>`;
+const blocked=`<div class="hero"><h2>파란 창이 뜨면 이렇게 누릅니다</h2><div class="fig"><div class="ss"><h3>Windows의 PC 보호</h3><p>Microsoft Defender SmartScreen이 인식할 수 없는 앱의 시작을 차단했습니다.</p><span class="link">추가 정보</span><div class="row"><span class="b">실행 안 함</span></div></div><div class="ss"><h3>Windows의 PC 보호</h3><p>앱: PdfDeskSetup.exe<br>게시자: 알 수 없는 게시자</p><div class="row"><span class="b hit">실행</span><span class="b">실행 안 함</span></div></div></div><p class="figcap">설명용 그림입니다. 노란 테두리를 차례로 누르세요.</p><table><tr><th>내려받을 때 엣지 경고</th><td>파일 이름 옆 점 3개 → <b>유지</b> → <b>자세히 표시</b> → <b>그래도 계속</b></td></tr><tr><th>내려받을 때 크롬 경고</th><td><b>계속</b> 또는 <b>유지</b></td></tr></table><p class="sub">윈도우가 처음 보는 프로그램이면 나오는 안내입니다. 이 매뉴얼의 단추로 받은 파일에만 이렇게 하세요.</p></div>`;
+const trouble=`<div class="hero"><h2>자주 생기는 일</h2><table>
+<tr><th>더블클릭하면 다른 프로그램이 열려요</th><td>시작하기의 <b>기본 프로그램</b> 탭을 따라 해 주세요.</td></tr>
+<tr><th>저장이 안 된다고 나와요</th><td>그 파일을 연 다른 프로그램을 닫거나 <b>다른 이름으로</b> 저장하세요.</td></tr>
+<tr><th>글자 고치기에서 줄이 안 잡혀요</th><td>사진처럼 찍은 스캔 문서입니다. 글자 묶음의 <b>스캔 문서</b> 탭을 보세요.</td></tr>
+<tr><th>찾기·복사가 안 돼요</th><td>스캔 문서 안의 글자는 찾거나 복사할 수 없습니다.</td></tr>
+<tr><th>설치할 때 열려 있다고 나와요</th><td>PDF 데스크를 닫고 설치 파일을 다시 실행하세요.</td></tr>
+<tr><th>잘못 덮어 저장했어요</th><td>저장·되돌리기 묶음의 <b>원본 찾기</b> 탭을 보세요.</td></tr></table></div>`;
+const about=`<div class="hero"><h2>프로그램 정보</h2><table>
+<tr><th>인터넷·로그인</th><td>필요 없습니다. 연 파일은 PC 밖으로 나가지 않습니다.</td></tr>
+<tr><th>가격</th><td>무료</td></tr>
+<tr><th>소스와 사용 조건</th><td><a href="https://github.com/drc2104/pdf-desk">프로그램 공개 저장소</a>에서 볼 수 있습니다.</td></tr></table></div>`;
+const backup=`<div class="hero"><h2>보관된 원본 찾기</h2><p>아래 주소를 복사해 탐색기 맨 위 주소 칸에 붙여 넣습니다.</p><table><tr><td><code>%LOCALAPPDATA%\\PdfDesk\\backup</code></td></tr></table><button class="next" id="copybk" style="margin-top:10px">주소 복사</button><p class="sub">파일을 연 뒤 처음 덮어쓸 때 그 전 파일을 보관합니다. 최근 30개까지 남습니다.</p></div>`;
+const removeH=`<div class="hero"><h2>프로그램 지우기</h2><p>윈도우 <b>설정 → 앱 → 설치된 앱</b>에서 <b>PDF 데스크</b>의 <b>제거</b>를 누릅니다.</p><p class="sub">갖고 있는 PDF 파일은 지워지지 않습니다.</p></div>`;
+const C=[
+{id:"start",name:"시작하기",c:"#1d6b6b",tabs:[
+ {t:"내려받기",todo:"PC에서 설치 파일을 받습니다.",html:download,s:["가운데 큰 <b class=k>설치 파일 내려받기</b> 단추를 누릅니다.","받는 데 시간이 조금 걸립니다. 브라우저 위나 아래에 받는 중이라고 나옵니다.","받은 파일은 보통 <b class=k>다운로드</b> 폴더에 있습니다."],tip:"휴대폰에는 설치되지 않습니다. PC 카톡에서 링크를 여세요."},
+ {t:"설치",todo:"받은 파일을 실행하면 나머지는 자동입니다.",html:blocked,s:["받은 파일 <b class=k>PdfDeskSetup</b>을 더블클릭합니다.","파란 창이나 경고가 뜨면 왼쪽대로 누릅니다.","몇 초 뒤 설치가 끝나고 프로그램이 저절로 열립니다.","바탕화면에 <b class=k>PDF 데스크</b> 아이콘이 생깁니다."],tip:"설치가 끝나면 받은 설치 파일은 지워도 됩니다."},
+ {t:"기본 프로그램",todo:"PDF를 더블클릭하면 이 프로그램이 열리게 합니다.",img:"s_default",s:["왼쪽 <b class=k>설정</b>을 누릅니다.","오른쪽 <b class=k>이 프로그램으로 지정</b>을 누릅니다.","윈도우 설정 창에서 <b class=k>.pdf</b> 줄을 누릅니다.","<b class=k>PDF 데스크</b>를 고르고 <b class=k>기본값으로 설정</b>을 누릅니다."],tip:"윈도우 규칙상 이 한 번은 직접 눌러야 합니다."},
+ {t:"화면 살펴보기",todo:"왼쪽에서 일을 고르고, 위쪽 탭에서 도구를 고릅니다.",img:"start",s:["PDF를 화면에 끌어다 놓거나 <b class=k>파일 열기</b>를 누릅니다.","왼쪽에서 할 일(글자·표시·서명·페이지)을 고릅니다.","위쪽 탭에서 도구를 고르면 안내 줄에 다음 할 일이 나옵니다.","오른쪽 칸에서 글꼴·색 같은 값을 정합니다."],tip:"Ctrl은 키보드 맨 아래 왼쪽 키입니다. Ctrl+휠 확대·축소, Ctrl+F 찾기, Ctrl+S 저장, Ctrl+Z 되돌리기."},
+ {t:"지우기",todo:"프로그램을 지우는 방법입니다.",html:removeH,s:["PDF 데스크를 닫습니다.","윈도우 <b class=k>설정 → 앱 → 설치된 앱</b>을 엽니다.","<b class=k>PDF 데스크</b>를 찾아 <b class=k>제거</b>를 누릅니다."]}]},
+{id:"view",name:"보기",c:"#2f6f8f",tabs:[
+ {t:"읽기·복사",todo:"문서를 읽고 글자를 복사합니다.",img:"read",s:["마우스 휠로 위아래로 넘깁니다.","위쪽 <b class=k>이전</b>·<b class=k>다음</b>이나 쪽 번호로 이동합니다.","글자를 끌어서 고르고 <b class=k>Ctrl+C</b>로 복사합니다."]},
+ {t:"찾기",todo:"문서에서 낱말을 찾습니다.",img:"find",s:["<b class=k>찾기</b> 탭을 누르거나 <b class=k>Ctrl+F</b>를 누릅니다.","오른쪽 칸에 찾을 말을 쓰고 <b class=k>Enter</b> 키를 누릅니다.","<b class=k>이전</b>·<b class=k>다음</b>으로 찾은 곳을 옮겨 다닙니다."],tip:"사진처럼 찍은 스캔 문서에서는 찾을 수 없습니다."},
+ {t:"인쇄",todo:"문서를 종이로 뽑습니다.",img:"print",s:["오른쪽 위 <b class=k>인쇄</b>를 누릅니다.","프린터와 쪽 범위를 고르고 인쇄합니다."],tip:"저장하기 전에 넣은 글자·서명도 함께 인쇄됩니다."}]},
+{id:"text",name:"글자",c:"#9a5516",tabs:[
+ {t:"글자 고치기",todo:"문서에 있는 글자를 한 줄씩 고칩니다.",img:"edit_text",s:["왼쪽 <b class=k>글자</b>를 누르고 위쪽 <b class=k>글자 고치기</b>를 고릅니다.","고칠 줄을 누르면 입력칸이 열립니다.","고쳐 쓰고 <b class=k>Enter</b> 키를 누릅니다. 취소는 <b class=k>Esc</b> 키입니다."],tip:"글꼴은 맑은 고딕이나 바탕으로 맞춰지고, 크기와 색은 유지됩니다."},
+ {t:"스캔 문서",todo:"사진처럼 찍은 문서는 지우고 그 자리에 새로 씁니다.",img:"scan",s:["위쪽 <b class=k>글자 고치기</b>를 고릅니다.","고칠 곳을 마우스로 네모로 끕니다.","그 부분이 지워지고 입력칸이 열립니다.","새 글자를 쓰고 다른 곳을 누릅니다."],warn:"네모 안의 내용은 없어집니다. 고칠 부분만 끌어 주세요."},
+ {t:"글자 넣기",todo:"빈 자리에 글자, 체크, 날짜를 넣습니다.",img:"add_text",s:["위쪽 <b class=k>글자 넣기</b>를 고릅니다.","넣을 자리를 누르고 씁니다. 다른 곳을 누르면 끝납니다.","오른쪽에서 글꼴·크기·색을 정합니다.","<b class=k>체크 표시</b>·<b class=k>오늘 날짜</b>를 누르고 자리를 누르면 바로 들어갑니다."],tip:"저장하기 전까지는 넣은 글자를 끌어서 옮길 수 있습니다."},
+ {t:"가리기",todo:"보이면 안 되는 내용을 문서에서 없앱니다.",img:"cover",s:["위쪽 <b class=k>가리기</b>를 고릅니다.","지울 부분을 네모로 끕니다. 그림의 붉은 네모처럼 내용이 사라집니다.","잘못 지웠으면 <b class=k>되돌리기</b>를 누릅니다."],warn:"네모에 걸친 글자는 통째로 지워집니다. 저장한 파일에서는 되살릴 수 없으니, 필요하면 다른 이름으로 저장하세요."}]},
+{id:"mark",name:"표시",c:"#7a5e00",tabs:[
+ {t:"형광펜·밑줄·취소선",todo:"글자 위에 표시를 합니다.",img:"highlight",s:["왼쪽 <b class=k>표시</b>를 누르고 위쪽 탭에서 도구를 고릅니다.","오른쪽에서 색을 고릅니다.","표시할 글자를 처음부터 끝까지 끕니다."]},
+ {t:"펜",todo:"문서 위에 마우스로 그립니다.",img:"pen",s:["위쪽 <b class=k>펜</b>을 고릅니다.","오른쪽에서 색과 굵기를 정합니다.","문서 위에 마우스로 그립니다."]},
+ {t:"네모",todo:"표시할 곳에 네모를 그립니다.",img:"rect",s:["위쪽 <b class=k>네모</b>를 고릅니다.","오른쪽에서 색과 굵기를 정합니다.","표시할 곳을 끕니다."]},
+ {t:"표시 지우기",todo:"잘못한 표시를 없앱니다.",img:"erase",s:["위쪽 <b class=k>표시 지우기</b>를 고릅니다.","지울 형광펜·밑줄·펜·네모를 누릅니다."],tip:"방금 한 일은 Ctrl+Z로도 되돌립니다."}]},
+{id:"sign",name:"서명",c:"#6b3f8f",tabs:[
+ {t:"서명 넣기",todo:"서명을 만들어 두고 문서에 넣습니다.",img:"sign",s:["왼쪽 <b class=k>서명</b>을 누르고 위쪽 <b class=k>서명 넣기</b>를 고릅니다.","처음 한 번 <b class=k>새 서명 그리기</b>로 서명하고 <b class=k>서명 저장</b>을 누릅니다.","목록에서 서명을 고르고 넣을 자리를 누릅니다.","끌어서 옮기고, 오른쪽 아래 파란 점으로 크기를 바꿉니다."],tip:"저장한 서명은 다음에도 목록에 남습니다. 고른 항목 삭제로 지웁니다."},
+ {t:"도장·그림",todo:"도장이나 그림 파일을 문서에 찍습니다.",img:"stamp",s:["위쪽 <b class=k>도장·그림 넣기</b>를 고릅니다.","흰 바탕을 없앨지 오른쪽 칸에서 정합니다.","<b class=k>도장·그림 파일 불러오기</b>로 그림을 고릅니다.","목록에서 고르고 찍을 자리를 누릅니다."]}]},
+{id:"pages",name:"페이지",c:"#27694a",tabs:[
+ {t:"쪽 정리",todo:"쪽 순서를 바꾸고, 돌리고, 지웁니다.",img:"p_arrange",s:["왼쪽 <b class=k>페이지</b>를 누르고 위쪽 <b class=k>쪽 정리</b>를 고릅니다.","쪽을 끌거나 <b class=k>앞으로</b>·<b class=k>뒤로</b>로 순서를 바꿉니다.","오른쪽 단추로 돌리거나 지웁니다. 잘못하면 <b class=k>되돌리기</b>를 누릅니다."],tip:"Ctrl이나 Shift 키를 누른 채 여러 쪽을 고를 수 있습니다."},
+ {t:"합치기",todo:"다른 PDF나 사진을 끼워 넣습니다.",img:"p_merge",s:["끼워 넣을 자리 앞쪽 쪽을 고릅니다.","<b class=k>PDF·사진 끼워 넣기</b>를 누르고 파일을 고릅니다.","맨 위 <b class=k>저장</b>을 누릅니다."]},
+ {t:"나누기",todo:"일부 쪽을 새 파일로 뺍니다.",img:"p_split",s:["새 파일로 뺄 쪽을 고릅니다. 여러 쪽은 Ctrl 키를 누른 채 고릅니다.","<b class=k>고른 쪽만 새 파일로</b>를 누릅니다.","쪽마다 파일로 만들려면 <b class=k>한 쪽씩 따로 저장</b>을 누릅니다."],tip:"원본 파일은 그대로 남습니다."},
+ {t:"용량 줄이기",todo:"메일로 보내기 좋게 파일을 줄입니다.",img:"p_compress",s:["위쪽 <b class=k>용량 줄이기</b>에서 화질을 고릅니다.","<b class=k>줄여서 새 파일로 저장</b>을 누릅니다.","줄어든 결과가 오른쪽에 나옵니다."],tip:"쪽이 많으면 시간이 조금 걸립니다. 원본 파일은 그대로 남습니다."}]},
+{id:"save",name:"저장·되돌리기",c:"#56605c",tabs:[
+ {t:"저장",todo:"고친 내용을 파일에 남깁니다.",img:"save",s:["고치면 위쪽에 <b class=k>저장 안 됨</b>이 나옵니다.","<b class=k>저장</b>은 지금 파일에 덮어씁니다.","<b class=k>다른 이름으로</b>는 새 파일로 저장합니다."],tip:"처음 쓸 때는 다른 이름으로 저장해 보세요."},
+ {t:"되돌리기",todo:"방금 한 일을 취소합니다.",img:"undo",s:["<b class=k>되돌리기</b> 또는 <b class=k>Ctrl+Z</b>를 누릅니다.","다시 살리려면 <b class=k>다시 하기</b>를 누릅니다."],tip:"프로그램을 닫으면 되돌리기 기록은 없어집니다."},
+ {t:"원본 찾기",todo:"덮어쓰기 전 파일은 자동으로 보관됩니다.",html:backup,s:["가운데 <b class=k>주소 복사</b>를 누릅니다.","키보드의 윈도우 키와 E를 함께 눌러 탐색기를 엽니다.","맨 위 주소 칸에 붙여 넣고 <b class=k>Enter</b> 키를 누릅니다.","필요한 파일을 복사해 씁니다."]}]},
+{id:"help",name:"문제 해결",c:"#a23b1e",tabs:[
+ {t:"자주 생기는 일",todo:"막힐 때 먼저 봅니다.",html:trouble,s:["표에서 같은 증상을 찾습니다.","해결되지 않으면 담당자에게 화면을 찍어 보내 주세요."]},
+ {t:"프로그램 정보",todo:"이 프로그램의 정보입니다.",html:about,s:["다른 직원에게는 이 페이지 주소를 보내 주세요."],copy:true}]}
+];
+const $=id=>document.getElementById(id);
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+let ci=0,ti=0;
+const key=(c,t)=>"pd-done-"+C[c].id+"-"+t;
+function counts(i){return C[i].tabs.filter((_,t)=>store.get(key(i,t))).length}
+function drawCats(){$("cats").innerHTML=C.map((c,i)=>`<button style="--c:${c.c}" aria-current="${i===ci}" onclick="go(${i},0)">${c.name}<span class="n">${counts(i)}/${c.tabs.length}</span></button>`).join("")}
+function drawTabs(){$("tabs").innerHTML=C[ci].tabs.map((x,i)=>`<button role="tab" aria-selected="${i===ti}" onclick="go(${ci},${i})">${x.t}${store.get(key(ci,i))?'<span class="ok">완료</span>':""}</button>`).join("")}
+function go(c,t){ci=c;ti=t;draw();store.set("pd-pos",c+","+t)}
+function draw(){
+ const cat=C[ci],tab=cat.tabs[ti];
+ document.documentElement.style.setProperty("--c",cat.c);
+ drawCats();drawTabs();
+ $("title").textContent=tab.t;$("todo").textContent=tab.todo;
+ $("done").checked=!!store.get(key(ci,ti));
+ $("stage").innerHTML=tab.html||`<a class="shot" href="img/${tab.img}.png" target="_blank" rel="noopener"><img src="img/${tab.img}.png" alt="${tab.t} 실제 화면"></a><div class="cap">붉은 네모가 누를 곳입니다. 그림을 누르면 크게 보입니다.</div>`;
+ $("panel").innerHTML=`<ol class="steps">${tab.s.map(x=>`<li>${x}</li>`).join("")}</ol>${tab.warn?`<p class="warn">${tab.warn}</p>`:""}${tab.tip?`<p class="tip">${tab.tip}</p>`:""}${tab.copy?`<button class="next" id="copyurl">이 페이지 주소 복사</button>`:""}`;
+ const n=$("next"),last=ti===cat.tabs.length-1,nextC=C[ci+1];
+ if(!last){n.hidden=false;n.textContent="다음: "+cat.tabs[ti+1].t;n.onclick=()=>go(ci,ti+1)}
+ else if(nextC){n.hidden=false;n.textContent="다음: "+nextC.name;n.onclick=()=>go(ci+1,0)}
+ else n.hidden=true;
+ const b=$("copybk");if(b)b.onclick=()=>copy("%LOCALAPPDATA%\\PdfDesk\\backup",b);
+ const u=$("copyurl");if(u)u.onclick=()=>copy("https://drc2104.github.io/pdf-desk/",u);
+}
+function copy(text,btn){const old=btn.textContent;const end=()=>{btn.textContent="복사했습니다";setTimeout(()=>btn.textContent=old,1400)};
+ if(navigator.clipboard)navigator.clipboard.writeText(text).then(end).catch(()=>{prompt("복사해 주세요",text)});else prompt("복사해 주세요",text)}
+$("done").onchange=e=>{store.set(key(ci,ti),e.target.checked?"1":"");drawCats();drawTabs()};
+const pos=(store.get("pd-pos")||"").split(",").map(Number);
+if(pos.length===2&&C[pos[0]]&&C[pos[0]].tabs[pos[1]]){ci=pos[0];ti=pos[1]}
+draw();
+</script>
+</body>
+</html>
