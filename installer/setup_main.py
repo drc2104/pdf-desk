@@ -12,7 +12,7 @@ import zipfile
 from tkinter import messagebox, ttk
 
 APP = "PDF 데스크"
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 PUBLISHER = "디알컴퍼니"
 EXE = "PdfDesk.exe"
 UNINSTALL_KEY = r"Software\Microsoft\Windows\CurrentVersion\Uninstall\PdfDesk"
