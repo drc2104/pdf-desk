@@ -157,6 +157,23 @@ shot("stamp", "도장·그림 파일 불러오기")
 
 tool("view", "read")
 shot("print", "인쇄")
+# 인쇄 미리보기 창(실제 프린터로는 보내지 않고 화면만 찍는다)
+from pdfdesk.printing import PrintDialog
+_doc = fitz.open(stream=w.s.printable_bytes(), filetype="pdf")
+pd_ = PrintDialog(w, _doc, 0)
+pd_.setAttribute(Qt.WidgetAttribute.WA_DontShowOnScreen)
+pd_.resize(1180, 720)
+pd_.show()
+QTest.qWait(400)
+img = pd_.grab().toImage()
+pa = QPainter(img)
+pa.setPen(QPen(QColor("#e01b1b"), 3))
+for b in (pd_.printer_box, pd_.btn_next, pd_.btn_print):
+    pa.drawRect(QRect(b.mapTo(pd_, QPoint(0, 0)), b.size()).adjusted(-3, -3, 3, 3))
+pa.end()
+img.save(os.path.join(OUT, "print_preview.png"))
+pd_.close()
+_doc.close()
 shot("save", "저장", "다른 이름으로")
 shot("undo", "되돌리기")
 

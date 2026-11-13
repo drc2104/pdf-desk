@@ -19,6 +19,7 @@ import pymupdf as fitz
 
 from . import register
 from .engine import FONTS, NeedPassword, SaveError, Session
+from .printing import Options, PrintDialog, run_print
 from .view import DocView, measure, qcolor, to_pixmap
 
 APP = "PDF 데스크"
@@ -1285,44 +1286,23 @@ class Main(QMainWindow):
         if not self.s:
             return
         self.view.finish_editor()
-        printer = QPrinter(QPrinter.PrinterMode.HighResolution)
-        dlg = QPrintDialog(printer, self)
-        dlg.setMinMax(1, self.s.page_count)
-        dlg.setFromTo(1, self.s.page_count)
-        if dlg.exec() == QDialog.DialogCode.Accepted:
-            self.print_to(printer)
-
-    def print_to(self, printer: QPrinter):
         doc = fitz.open(stream=self.s.printable_bytes(), filetype="pdf")
-        first, last = 0, len(doc) - 1
-        if printer.printRange() == QPrinter.PrintRange.PageRange and printer.fromPage() > 0:
-            first, last = printer.fromPage() - 1, min(printer.toPage() - 1, last)
-        painter = QPainter()
-        if not painter.begin(printer):
+        try:
+            PrintDialog(self, doc, self.view.current).exec()
+        finally:
             doc.close()
-            QMessageBox.warning(self, APP, "프린터에 연결하지 못했습니다.")
-            return
-        progress = QProgressDialog("인쇄 준비 중입니다.", "취소", first, last + 1, self)
-        progress.setWindowModality(Qt.WindowModality.WindowModal)
-        dpi = min(printer.resolution(), 300)
-        area = printer.pageRect(QPrinter.Unit.DevicePixel)
-        for i in range(first, last + 1):
-            if i > first:
-                printer.newPage()
-            progress.setValue(i)
-            QApplication.processEvents()
-            if progress.wasCanceled():
-                printer.abort()
-                break
-            pix = doc[i].get_pixmap(dpi=dpi, alpha=False)
-            img = QImage(pix.samples, pix.width, pix.height, pix.stride, QImage.Format.Format_RGB888)
-            ratio = min(area.width() / pix.width, area.height() / pix.height)
-            w, h = pix.width * ratio, pix.height * ratio
-            target = QRectF((area.width() - w) / 2, (area.height() - h) / 2, w, h)
-            painter.drawImage(target, img)
-        progress.close()
-        painter.end()
-        doc.close()
+
+    def print_to(self, printer: QPrinter, pages: list | None = None, opts: Options | None = None):
+        """미리보기 창 없이 바로 인쇄(시험·다른 기능용)."""
+        doc = fitz.open(stream=self.s.printable_bytes(), filetype="pdf")
+        if pages is None:
+            pages = list(range(len(doc)))
+            if printer.printRange() == QPrinter.PrintRange.PageRange and printer.fromPage() > 0:
+                pages = list(range(printer.fromPage() - 1, min(printer.toPage(), len(doc))))
+        try:
+            run_print(self, doc, printer, pages, opts or Options())
+        finally:
+            doc.close()
 
     def set_default(self):
         if not register.register():
